@@ -1,4 +1,4 @@
-name: Build and validate PR
+name: Generate JSON Schemas
 on:
   workflow_dispatch:
 
