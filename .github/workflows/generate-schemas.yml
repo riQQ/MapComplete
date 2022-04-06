@@ -1,0 +1,30 @@
+name: Build and validate PR
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1.4.6
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate JSON schemas
+        run: npm run generate:schemas
+        
+      - name: Commit and push changes
+        run: |
+          git status
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add .
+          git status
+          git commit -m "Update JSON Schemas"
+          git push --porcelain
